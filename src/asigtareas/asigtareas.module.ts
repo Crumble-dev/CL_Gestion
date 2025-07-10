@@ -1,21 +1,21 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { AsigtareasService } from './asigtareas.service';
-import { AsigtareasController } from './asigtareas.controller';
-import { AsignacionTarea } from './entities/asignacion-tarea.entity';
+import { AsignacionIndividualService } from './service/asig-indi-service';
+import { AsignacionParejaService } from './service/asig-pare-service';
+import { AsignacionIndividualController } from './controllers/asig-indi-controller';
+import { AsignacionParejaController } from './controllers/asig-pare-controller';
 import { AsignacionIndividual } from './entities/asignacion-individual.entity';
 import { AsignacionPareja } from './entities/asignacion-pareja.entity';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([
-      AsignacionTarea,
       AsignacionIndividual,
       AsignacionPareja,
     ]),
   ],
-  controllers: [AsigtareasController],
-  providers: [AsigtareasService],
-  exports: [AsigtareasService],
+  controllers: [AsignacionIndividualController, AsignacionParejaController],
+  providers: [AsignacionIndividualService, AsignacionParejaService],
+  exports: [AsignacionIndividualService, AsignacionParejaService],
 })
 export class AsigtareasModule {}

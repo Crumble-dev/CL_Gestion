@@ -1,28 +1,27 @@
-version: '3.8'
 
 services:
-  app:
-    build: .
-    ports:
-      - "3000:3000"
-    environment:
-      - NODE_ENV=development
-      - PORT=3000
-      - JWT_SECRET=queso
-      - DB_TYPE=mysql
-      - DB_HOST=mysql
-      - DB_PORT=3306
-      - DB_USER=root
-      - DB_PASSWORD=locura
-      - DB_DATABASE=auth_users
-    depends_on:
-      mysql:
-        condition: service_healthy
-    volumes:
-      - .:/app
-      - /app/node_modules
-    networks:
-      - app-network
+  # app:
+  #   build: .
+  #   ports:
+  #     - "3000:3000"
+  #   environment:
+  #     - NODE_ENV=development
+  #     - PORT=3000
+  #     - JWT_SECRET=queso
+  #     - DB_TYPE=mysql
+  #     - DB_HOST=mysql
+  #     - DB_PORT=3306
+  #     - DB_USER=root
+  #     - DB_PASSWORD=locura
+  #     - DB_DATABASE=auth_users
+  #   depends_on:
+  #     mysql:
+  #       condition: service_healthy
+  #   volumes:
+  #     - .:/app
+  #     - /app/node_modules
+  #   networks:
+  #     - app-network
 
   mysql:
     image: mysql:8.0
@@ -32,19 +31,12 @@ services:
     ports:
       - "3306:3306"
     volumes:
-      - mysql_data:/var/lib/mysql
-    healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
-      timeout: 20s
-      retries: 10
-    networks:
-      - app-network
+      - ./mysql_data:/var/lib/mysql
+
 
 volumes:
   mysql_data:
 
-networks:
-  app-network:
-    driver: bridge
+
 
  

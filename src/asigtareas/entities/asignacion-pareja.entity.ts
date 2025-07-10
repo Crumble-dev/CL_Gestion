@@ -1,16 +1,9 @@
-import { Entity, PrimaryColumn, Column, ManyToOne, JoinColumn } from 'typeorm';
-import { AsignacionTarea } from './asignacion-tarea.entity';
+import { Entity, Column } from 'typeorm';
+import { ATareas } from './ATareas.entity';
 
 @Entity('asignaciones_pareja')
-export class AsignacionPareja {
-  @PrimaryColumn({ name: 'asignacion_id' })
-  asignacionId: number;
+export class AsignacionPareja extends ATareas {
 
   @Column({ name: 'pareja_id' })
   parejaId: number;
-
-  // Relación con la tabla madre
-  @ManyToOne(() => AsignacionTarea, asignacionTarea => asignacionTarea.asignacionPareja)
-  @JoinColumn({ name: 'asignacion_id' })
-  asignacionTarea: AsignacionTarea;
 } 

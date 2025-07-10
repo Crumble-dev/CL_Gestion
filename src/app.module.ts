@@ -6,10 +6,9 @@ import { AppService } from './app.service';
 import { envs } from './config/envs';
 import { AsigtareasModule } from './asigtareas/asigtareas.module';
 import { RetrotareasModule } from './retrotareas/retrotareas.module';
-import { AsignacionTarea } from './asigtareas/entities/asignacion-tarea.entity';
 import { AsignacionIndividual } from './asigtareas/entities/asignacion-individual.entity';
 import { AsignacionPareja } from './asigtareas/entities/asignacion-pareja.entity';
-import { RetroalimentacionTarea } from './retrotareas/entities/retroalimentacion-tarea.entity';
+import { ARetroalimentacion } from './retrotareas/entities/Aretro';
 
 @Module({
   imports: [
@@ -22,10 +21,9 @@ import { RetroalimentacionTarea } from './retrotareas/entities/retroalimentacion
       password: envs.database.password,
       database: envs.database.database,
       entities: [
-        AsignacionTarea,
         AsignacionIndividual,
         AsignacionPareja,
-        RetroalimentacionTarea,
+        ARetroalimentacion,
       ],
       synchronize: true, // Solo para desarrollo
     }),

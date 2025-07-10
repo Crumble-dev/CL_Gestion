@@ -1,20 +1,26 @@
 import { IsInt, IsNotEmpty, IsOptional, IsString, Max, Min } from 'class-validator';
 
-export class CreateRetroIndividualDto {
+export class CreateRetroParejaDto {
   @IsInt()
   @IsNotEmpty()
   clienteId: number;
 
   @IsInt()
-  @Min(1) @Max(5)
+  @IsNotEmpty()
+  @Min(1)
+  @Max(5)
   calificacionSatisfaccion: number;
 
   @IsInt()
-  @Min(1) @Max(5)
+  @IsNotEmpty()
+  @Min(1)
+  @Max(5)
   calificacionDificultad: number;
 
   @IsInt()
-  @Min(1) @Max(5)
+  @IsNotEmpty()
+  @Min(1)
+  @Max(5)
   calificacionUtilidad: number;
 
   @IsString()
@@ -23,5 +29,5 @@ export class CreateRetroIndividualDto {
 
   @IsInt()
   @IsNotEmpty()
-  asignacionId: number; // El ID de la tarea individual a la que responde
+  asignacionId: number;
 }
