@@ -10,7 +10,7 @@ interface EnvironmentsVariables {
   DB_USER: string;
   DB_PASSWORD: string;
   DB_DATABASE: string;
-  NATS_HOST: string; // <-- Agregado
+  NATSHOST: string; // <-- Agregado
 }
 
 const envsScheme = joi
@@ -27,7 +27,7 @@ const envsScheme = joi
     DB_USER: joi.string().required(),
     DB_PASSWORD: joi.string().required(),
     DB_DATABASE: joi.string().required(),
-    NATS_HOST: joi.string().required(), // <-- Agregado
+    NATSHOST: joi.string().required(), // <-- Agregado
   })
   .unknown();
 
@@ -51,7 +51,7 @@ export const envs = {
     password: env.DB_PASSWORD,
     database: env.DB_DATABASE,
   },
-  natsHost: env.NATS_HOST, // <-- Agregado
+  natsHost: env.NATSHOST, // <-- Agregado
 };
 
 console.log(envs);
