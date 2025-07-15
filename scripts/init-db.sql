@@ -33,4 +33,8 @@ INSERT IGNORE INTO users (username, email, password) VALUES
 INSERT IGNORE INTO tasks (title, description, status, user_id) VALUES
 ('Configurar base de datos', 'Configurar la conexión a MySQL', 'completed', 1),
 ('Crear entidades', 'Crear las entidades de TypeORM', 'in_progress', 1),
-('Implementar autenticación', 'Implementar JWT authentication', 'pending', 1); 
+('Implementar autenticación', 'Implementar JWT authentication', 'pending', 1);
+
+-- Limpiar retroalimentaciones individuales huérfanas
+DELETE FROM retroalimentaciones_individuales
+WHERE asignacion_individual_id NOT IN (SELECT id FROM asignaciones_individuales); 

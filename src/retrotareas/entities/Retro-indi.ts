@@ -7,8 +7,5 @@ export class RetroalimentacionIndividual extends ARetroalimentacion {
 
   @Column({ name: 'asignacion_pareja_id' })
   asignacionId: number;
-  
-  @ManyToOne(() => AsignacionIndividual, { nullable: false }) 
-  @JoinColumn({ name: 'asignacion_individual_id' })
-  asignacion: AsignacionIndividual;
+
 }

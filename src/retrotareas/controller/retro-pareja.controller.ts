@@ -1,49 +1,49 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete, ParseIntPipe } from '@nestjs/common';
-import { RetroParejaService } from '../service/retro-pareja.service';
 import { CreateRetroParejaDto } from '../dto/create-retro-pareja.dto';
 import { UpdateRetroParejaDto } from '../dto/update-retro-pareja.dto';
+import { RetroParejaService } from '../service/retro-pareja.service';
 
 @Controller('retroalimentaciones/pareja')
 export class RetroParejaController {
-  constructor(private readonly retroParejaService: RetroParejaService) {}
+  constructor(private readonly retroService: RetroParejaService) {}
 
   @Post()
-  create(@Body() createRetroParejaDto: CreateRetroParejaDto) {
-    return this.retroParejaService.create(createRetroParejaDto);
+  create(@Body() createDto: CreateRetroParejaDto) {
+    return this.retroService.create(createDto);
   }
 
   @Get()
   findAll() {
-    return this.retroParejaService.findAll();
+    return this.retroService.findAll();
   }
 
   @Get('estadisticas')
   getEstadisticas() {
-    return this.retroParejaService.getEstadisticas();
+    return this.retroService.getEstadisticas();
   }
 
   @Get('por-cliente/:clienteId')
   findPorCliente(@Param('clienteId', ParseIntPipe) clienteId: number) {
-    return this.retroParejaService.findRetroalimentacionesByCliente(clienteId);
+    return this.retroService.findRetroalimentacionesByCliente(clienteId);
   }
 
   @Get('por-tarea/:tareaId')
   findPorTarea(@Param('tareaId', ParseIntPipe) tareaId: number) {
-    return this.retroParejaService.findRetroalimentacionesByTarea(tareaId);
+    return this.retroService.findRetroalimentacionesByTarea(tareaId);
   }
 
   @Get(':id')
   findOne(@Param('id', ParseIntPipe) id: number) {
-    return this.retroParejaService.findOne(id);
+    return this.retroService.findOne(id);
   }
 
   @Patch(':id')
-  update(@Param('id', ParseIntPipe) id: number, @Body() updateRetroParejaDto: UpdateRetroParejaDto) {
-    return this.retroParejaService.update(id, updateRetroParejaDto);
+  update(@Param('id', ParseIntPipe) id: number, @Body() updateDto: UpdateRetroParejaDto) {
+    return this.retroService.update(id, updateDto);
   }
 
   @Delete(':id')
   remove(@Param('id', ParseIntPipe) id: number) {
-    return this.retroParejaService.remove(id);
+    return this.retroService.remove(id);
   }
 }

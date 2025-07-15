@@ -5,8 +5,6 @@ import { CreateRetroIndividualDto } from '../dto/create-retroalimentacion-tarea.
 import { UpdateRetroIndividualDto } from '../dto/update-retroalimentacion-tarea.dto';
 import { RetroalimentacionIndividual } from '../entities/Retro-indi';
 
-
-
 @Injectable()
 export class RetroIndividualesService {
   constructor(
@@ -14,46 +12,31 @@ export class RetroIndividualesService {
     private retroRepository: Repository<RetroalimentacionIndividual>,
   ) {}
 
-  // Crear nueva retroalimentación
   create(createDto: CreateRetroIndividualDto): Promise<RetroalimentacionIndividual> {
     const retro = this.retroRepository.create(createDto);
     return this.retroRepository.save(retro);
   }
 
-  // Obtener todas las retroalimentaciones
   findAll(): Promise<RetroalimentacionIndividual[]> {
-    return this.retroRepository.find({ relations: ['asignacion'] });
+    return this.retroRepository.find();
   }
 
-  // Obtener retroalimentación por ID
   async findOne(id: number): Promise<RetroalimentacionIndividual> {
-    const retro = await this.retroRepository.findOne({
-      where: { id },
-      relations: ['asignacion'],
-    });
+    const retro = await this.retroRepository.findOne({ where: { id } });
     if (!retro) {
       throw new NotFoundException(`Retroalimentación individual con ID ${id} no encontrada`);
     }
     return retro;
   }
 
-  // Obtener retroalimentaciones de un cliente específico
   findRetroalimentacionesByCliente(clienteId: number): Promise<RetroalimentacionIndividual[]> {
-    return this.retroRepository.find({
-      where: { clienteId },
-      relations: ['asignacion'],
-    });
+    return this.retroRepository.find({ where: { clienteId } });
   }
 
-  // Obtener retroalimentaciones de una tarea específica
   findRetroalimentacionesByTarea(asignacionId: number): Promise<RetroalimentacionIndividual[]> {
-    return this.retroRepository.find({
-      where: { asignacionId },
-      relations: ['asignacion'],
-    });
+    return this.retroRepository.find({ where: { asignacionId } });
   }
 
-  // Actualizar retroalimentación
   async update(id: number, updateDto: UpdateRetroIndividualDto): Promise<RetroalimentacionIndividual> {
     const retro = await this.retroRepository.preload({ id, ...updateDto });
     if (!retro) {
@@ -62,14 +45,12 @@ export class RetroIndividualesService {
     return this.retroRepository.save(retro);
   }
 
-  // Eliminar retroalimentación
   async remove(id: number): Promise<{ message: string }> {
     const retro = await this.findOne(id);
     await this.retroRepository.remove(retro);
     return { message: 'Retroalimentación individual eliminada exitosamente' };
   }
 
-  // Obtener estadísticas (solo para retroalimentaciones individuales)
   async getEstadisticas() {
     const queryBuilder = this.retroRepository.createQueryBuilder('retro');
     const total = await queryBuilder.getCount();

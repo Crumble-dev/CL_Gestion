@@ -9,6 +9,8 @@ import { RetrotareasModule } from './retrotareas/retrotareas.module';
 import { AsignacionIndividual } from './asigtareas/entities/asignacion-individual.entity';
 import { AsignacionPareja } from './asigtareas/entities/asignacion-pareja.entity';
 import { ARetroalimentacion } from './retrotareas/entities/Aretro';
+import { RetroalimentacionIndividual } from './retrotareas/entities/Retro-indi';
+import { RetroalimentacionPareja } from './retrotareas/entities/Retro-pare';
 
 @Module({
   imports: [
@@ -24,6 +26,8 @@ import { ARetroalimentacion } from './retrotareas/entities/Aretro';
         AsignacionIndividual,
         AsignacionPareja,
         ARetroalimentacion,
+        RetroalimentacionIndividual, 
+        RetroalimentacionPareja
       ],
       synchronize: true, // Solo para desarrollo
     }),

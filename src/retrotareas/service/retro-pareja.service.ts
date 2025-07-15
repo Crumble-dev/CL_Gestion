@@ -1,15 +1,15 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { RetroalimentacionPareja } from '../entities/Retro-pare';
 import { CreateRetroParejaDto } from '../dto/create-retro-pareja.dto';
 import { UpdateRetroParejaDto } from '../dto/update-retro-pareja.dto';
+import { RetroalimentacionPareja } from '../entities/Retro-pare';
 
 @Injectable()
 export class RetroParejaService {
   constructor(
     @InjectRepository(RetroalimentacionPareja)
-    private readonly retroRepository: Repository<RetroalimentacionPareja>,
+    private retroRepository: Repository<RetroalimentacionPareja>,
   ) {}
 
   create(createDto: CreateRetroParejaDto): Promise<RetroalimentacionPareja> {
@@ -18,38 +18,29 @@ export class RetroParejaService {
   }
 
   findAll(): Promise<RetroalimentacionPareja[]> {
-    return this.retroRepository.find({ relations: ['asignacion'] });
+    return this.retroRepository.find();
   }
 
   async findOne(id: number): Promise<RetroalimentacionPareja> {
-    const retro = await this.retroRepository.findOne({
-      where: { id },
-      relations: ['asignacion'],
-    });
+    const retro = await this.retroRepository.findOne({ where: { id } });
     if (!retro) {
-      throw new NotFoundException(`Retroalimentación de pareja con ID ${id} no encontrada`);
+      throw new NotFoundException(`Retroalimentación pareja con ID ${id} no encontrada`);
     }
     return retro;
   }
 
   findRetroalimentacionesByCliente(clienteId: number): Promise<RetroalimentacionPareja[]> {
-    return this.retroRepository.find({
-      where: { clienteId },
-      relations: ['asignacion'],
-    });
+    return this.retroRepository.find({ where: { clienteId } });
   }
 
   findRetroalimentacionesByTarea(asignacionId: number): Promise<RetroalimentacionPareja[]> {
-    return this.retroRepository.find({
-      where: { asignacionId },
-      relations: ['asignacion'],
-    });
+    return this.retroRepository.find({ where: { asignacionId } });
   }
 
   async update(id: number, updateDto: UpdateRetroParejaDto): Promise<RetroalimentacionPareja> {
     const retro = await this.retroRepository.preload({ id, ...updateDto });
     if (!retro) {
-      throw new NotFoundException(`Retroalimentación de pareja con ID ${id} no encontrada para actualizar`);
+      throw new NotFoundException(`Retroalimentación pareja con ID ${id} no encontrada para actualizar`);
     }
     return this.retroRepository.save(retro);
   }
@@ -57,7 +48,7 @@ export class RetroParejaService {
   async remove(id: number): Promise<{ message: string }> {
     const retro = await this.findOne(id);
     await this.retroRepository.remove(retro);
-    return { message: `Retroalimentación de pareja con ID #${id} eliminada exitosamente` };
+    return { message: 'Retroalimentación pareja eliminada exitosamente' };
   }
 
   async getEstadisticas() {
@@ -71,7 +62,7 @@ export class RetroParejaService {
       .getRawOne();
 
     return {
-      totalRetroalimentacionesPareja: total,
+      totalRetroalimentaciones: total,
       promedioSatisfaccion: parseFloat(stats.promedioSatisfaccion) || 0,
       promedioDificultad: parseFloat(stats.promedioDificultad) || 0,
       promedioUtilidad: parseFloat(stats.promedioUtilidad) || 0,
