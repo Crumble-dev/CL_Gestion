@@ -1,4 +1,5 @@
 import { Module } from '@nestjs/common';
+import { HttpModule } from '@nestjs/axios';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AsignacionIndividualService } from './service/asig-indi-service';
 import { AsignacionParejaService } from './service/asig-pare-service';
@@ -13,6 +14,7 @@ import { AsignacionPareja } from './entities/asignacion-pareja.entity';
       AsignacionIndividual,
       AsignacionPareja,
     ]),
+    HttpModule,
   ],
   controllers: [AsignacionIndividualController, AsignacionParejaController],
   providers: [AsignacionIndividualService, AsignacionParejaService],

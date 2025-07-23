@@ -5,6 +5,9 @@ import { AsignacionPareja } from '../entities/asignacion-pareja.entity';
 import { CreateAsignacionParejaDto } from '../dto/create-asignacion-tarea-pareja.dto';
 import { UpdateAsignacionParejaDto } from '../dto/update-asignacion-tarea.dto';
 import { AsignacionIndividual } from '../entities/asignacion-individual.entity';
+import { lastValueFrom } from 'rxjs';
+import { AxiosResponse } from 'axios';
+import { HttpService } from '@nestjs/axios';
 
 @Injectable()
 export class AsignacionParejaService {
@@ -13,6 +16,7 @@ export class AsignacionParejaService {
     private readonly asignacionParejaRepository: Repository<AsignacionPareja>,
     @InjectRepository(AsignacionIndividual)
     private readonly asignacionIndividualRepository: Repository<AsignacionIndividual>,
+    private readonly httpService: HttpService
   ) {}
 
   async create(createAsignacionParejaDto: CreateAsignacionParejaDto): Promise<AsignacionPareja> {
@@ -44,6 +48,36 @@ export class AsignacionParejaService {
       throw new NotFoundException(`Asignación de pareja con ID "${id}" no encontrada.`);
     }
   }
+
+  async obtenerTareasDeParejaPorUsuario(usuarioId: number) {
+    // 1. Obtener todas las parejas
+    const response: AxiosResponse<any[]> = await lastValueFrom(
+      this.httpService.get('https://cl-terapia.onrender.com/parejas')
+    );
+    
+    const parejas = response.data;
+  
+    // 2. Buscar pareja donde el usuario coincida
+    const parejaEncontrada = parejas.find(p =>
+      p.idParejaA === usuarioId || p.idParejaB === usuarioId
+    );
+  
+    if (!parejaEncontrada) {
+      throw new NotFoundException(`El usuario no pertenece a ninguna pareja`);
+    }
+  
+    // 3. Buscar las tareas relacionadas con esa pareja
+    const tareas = await this.asignacionParejaRepository.find({
+      where: { parejaId: parejaEncontrada.id }
+    });
+  
+    return {
+      parejaId: parejaEncontrada.id,
+      tareas,
+    };
+  }
+
+  
 
   async removeByParejaEvent({ idParejaA, idParejaB, idPareja }: { idParejaA: number, idParejaB: number, idPareja: number }) {
     console.log('Eliminando tareas de pareja para parejaId:', idPareja);

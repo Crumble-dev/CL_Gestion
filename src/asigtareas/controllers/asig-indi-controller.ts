@@ -17,6 +17,12 @@ export class AsignacionIndividualController {
     return this.asignacionIndividualService.findAll();
   }
 
+  @Get('por-usuario/:usuarioId')
+  async findByUsuario(@Param('usuarioId', ParseIntPipe) usuarioId: number) {
+    // Solo tareas individuales, ya que la relación de pareja está en otro microservicio
+    return this.asignacionIndividualService.findByUsuario(usuarioId);
+  }
+
   @Get(':id')
   findOne(@Param('id', ParseIntPipe) id: number) {
     return this.asignacionIndividualService.findOne(id);

@@ -33,6 +33,12 @@ export class AsignacionParejaController {
     return this.asignacionParejaService.remove(id);
   }
 
+  @Get('tareas-por-usuario/:usuarioId')
+  async getTareasPorUsuario(@Param('usuarioId', ParseIntPipe) usuarioId: number) {
+  return this.asignacionParejaService.obtenerTareasDeParejaPorUsuario(usuarioId);
+}
+
+
   @EventPattern('pareja_deleted')
   async handleParejaDeleted(@Payload() data: { idParejaA: number, idParejaB: number, idPareja: number }) {
     console.log('Evento pareja_deleted recibido:', data);

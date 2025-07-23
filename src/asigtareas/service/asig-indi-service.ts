@@ -41,4 +41,8 @@ export class AsignacionIndividualService {
       throw new NotFoundException(`Asignación individual con ID "${id}" no encontrada.`);
     }
   }
+
+  async findByUsuario(usuarioId: number): Promise<AsignacionIndividual[]> {
+    return this.asignacionIndividualRepository.find({ where: { clienteId: usuarioId } });
+  }
 }

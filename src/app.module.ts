@@ -11,6 +11,7 @@ import { AsignacionPareja } from './asigtareas/entities/asignacion-pareja.entity
 import { ARetroalimentacion } from './retrotareas/entities/Aretro';
 import { RetroalimentacionIndividual } from './retrotareas/entities/Retro-indi';
 import { RetroalimentacionPareja } from './retrotareas/entities/Retro-pare';
+import { HttpModule } from '@nestjs/axios';
 
 @Module({
   imports: [
@@ -31,6 +32,7 @@ import { RetroalimentacionPareja } from './retrotareas/entities/Retro-pare';
       ],
       synchronize: true, // Solo para desarrollo
     }),
+    HttpModule,
     AsigtareasModule,
     RetrotareasModule,
   ],
