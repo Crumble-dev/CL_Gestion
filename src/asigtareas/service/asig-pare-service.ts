@@ -56,28 +56,31 @@ export class AsignacionParejaService {
     );
     
     const parejas = response.data;
-  
-    // 2. Buscar pareja donde el usuario coincida
-    const parejaEncontrada = parejas.find(p =>
-      p.idParejaA === usuarioId || p.idParejaB === usuarioId
-    );
-  
+    console.log('usuarioId:', usuarioId);
+    console.log('parejas:', parejas);
+    console.log('Ejemplo de pareja:', parejas[0]);
+
+    // 2. Buscar pareja donde el usuario coincida en miembros
+    const parejaEncontrada = parejas.find(p => {
+      const idsMiembros = p.miembros.map(m => m.id);
+      console.log('Comparando miembros:', idsMiembros, 'con', usuarioId);
+      return idsMiembros.includes(Number(usuarioId));
+    });
+
     if (!parejaEncontrada) {
       throw new NotFoundException(`El usuario no pertenece a ninguna pareja`);
     }
-  
+
     // 3. Buscar las tareas relacionadas con esa pareja
     const tareas = await this.asignacionParejaRepository.find({
       where: { parejaId: parejaEncontrada.id }
     });
-  
+
     return {
       parejaId: parejaEncontrada.id,
       tareas,
     };
   }
-
-  
 
   async removeByParejaEvent({ idParejaA, idParejaB, idPareja }: { idParejaA: number, idParejaB: number, idPareja: number }) {
     console.log('Eliminando tareas de pareja para parejaId:', idPareja);
