@@ -23,6 +23,11 @@ export class AsignacionIndividualController {
     return this.asignacionIndividualService.findByUsuario(usuarioId);
   }
 
+  @Get('por-psicologo/:psicologoId')
+  findByPsicologo(@Param('psicologoId', ParseIntPipe) psicologoId: number) {
+    return this.asignacionIndividualService.findByPsicologo(psicologoId);
+  }
+
   @Get(':id')
   findOne(@Param('id', ParseIntPipe) id: number) {
     return this.asignacionIndividualService.findOne(id);

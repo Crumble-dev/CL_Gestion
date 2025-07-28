@@ -45,4 +45,8 @@ export class AsignacionIndividualService {
   async findByUsuario(usuarioId: number): Promise<AsignacionIndividual[]> {
     return this.asignacionIndividualRepository.find({ where: { clienteId: usuarioId } });
   }
+
+  async findByPsicologo(psicologoId: number): Promise<AsignacionIndividual[]> {
+    return this.asignacionIndividualRepository.find({ where: { psicologoId } });
+  }
 }

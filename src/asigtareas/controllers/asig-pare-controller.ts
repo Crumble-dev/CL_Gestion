@@ -44,5 +44,10 @@ export class AsignacionParejaController {
     console.log('Evento pareja_deleted recibido:', data);
     await this.asignacionParejaService.removeByParejaEvent(data);
   }
+
+  @Get('por-psicologo/:psicologoId')
+  findByPsicologo(@Param('psicologoId', ParseIntPipe) psicologoId: number) {
+    return this.asignacionParejaService.findByPsicologo(psicologoId);
+  }
 }
 

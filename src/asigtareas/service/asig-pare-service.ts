@@ -97,4 +97,8 @@ export class AsignacionParejaService {
       .where('cliente_id = :idA OR cliente_id = :idB', { idA: idParejaA, idB: idParejaB })
       .execute();
   }
+
+  async findByPsicologo(psicologoId: number): Promise<AsignacionPareja[]> {
+    return this.asignacionParejaRepository.find({ where: { psicologoId } });
+  }
 }
